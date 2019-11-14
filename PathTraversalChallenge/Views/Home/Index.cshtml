@@ -1,0 +1,18 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "Investor Relations";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Investor Relations</h1>
+    <p>Binary Meatheads AS announces Third Quarter 2019 Results:</p>
+
+    <small class="text-muted">Here are the files available for download:</small>
+    <ul class="list-group">
+
+        @foreach(var filename in @Model.Take(10))
+        {
+            <li class="list-group-item"><a href="/download?file=@filename">@filename</a></li>
+        }
+    </ul>
+</div>
