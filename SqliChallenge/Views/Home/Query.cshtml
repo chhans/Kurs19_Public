@@ -1,0 +1,36 @@
+﻿@model System.Collections.Generic.List<Employee>
+@{
+    ViewData["Title"] = "Binary Meatheads";
+}
+
+<div class="text-center">
+@if (@ViewData["Error"] != null) {
+    <div class="p-3 mb-2 bg-warning text-dark">@ViewData["Error"]</div>
+}
+else
+{
+    <h1 class="display-4">Results for query @ViewData["query"]</h1>
+
+    @if (@Model != null)
+    {
+
+    <table class="table">
+        <tr class="table-row">
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+        </tr>
+        @foreach(var employee in @Model)
+        {
+            <tr class="table-row">
+                <td>@employee.firstName</td>
+                <td>@employee.lastName</td>
+                <td>@employee.email</td>
+            </tr>
+        }
+    </table>
+        
+    }
+}
+</div>
+

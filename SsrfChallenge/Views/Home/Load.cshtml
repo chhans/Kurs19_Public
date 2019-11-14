@@ -1,0 +1,28 @@
+﻿@model HtmlAgilityPack.HtmlNodeCollection
+@{
+    ViewData["Title"] = "Binary Meatheads";
+}
+
+<div class="text-center">
+@if (@ViewData["Error"] != null) {
+    <div class="p-3 mb-2 bg-warning text-dark">@ViewData["Error"]</div>
+}
+else
+{
+    <h1 class="display-4">Here are your news:</h1>
+
+    @if (@Model != null)
+    {
+    <ul class="list-group">
+
+        @foreach(var header in @Model.Take(10))
+        {
+            <li class="list-group-item">@header.InnerText</li>
+        }
+    </ul>
+        
+    }
+    <p class="text-muted">The news was loaded from @ViewData["Url"]</p>
+}
+</div>
+

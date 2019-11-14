@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Binary Meatheads";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the <b>S</b>ufficiently <b>I</b>ntellige<b>n</b>t <b>Ne</b>ws <b>R</b>eade<b>r</b></h1>
+
+    <form asp-action="Load">
+        <div class="form-group">
+            <label for="News site"></label>
+            <input type="url" name="url" class="form-control" id="news-site-url" aria-describedby="urlHelp" placeholder="Enter the url to a news site">
+            <small id="urlHelp" class="form-text text-muted">We'll fetch, parse and serve your news for you</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Load news</button>
+    </form>
+
+</div>

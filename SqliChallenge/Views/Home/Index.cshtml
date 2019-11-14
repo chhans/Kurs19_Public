@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Binary Meatheads";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Passive Directory</h1>
+
+    <p>Are you looking to contact our employees? Use this form to find their email!<br/></p>
+    
+    <form asp-action="Query">
+        <div class="form-group">
+            <label for="name"></label>
+            <input name="name" class="form-control" id="name" placeholder="Enter the first few characters of the employee's name">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+</div>

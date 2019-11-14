@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Binary Meatheads";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Visitor registration</h1>
+
+    <p>Pls register as visitor<br/></p>
+    
+    <form action="javascript:submit();">
+        <div class="form-group">
+            <input name="name" class="form-control" id="name" placeholder="First and last name"><br/>
+            <input name="visiting" class="form-control" id="visiting" placeholder="Who are you visiting?"><br/>
+            <input name="company" class="form-control" id="company" placeholder="Company">
+        </div>
+        <button id="register_btn" type="submit" class="btn btn-primary">Register</button><br/>
+    </form>
+
+    <div id="result" style="color:green"></div>
+
+    <script>
+
+        function submit () {
+            var name = document.getElementById("name").value;
+            var visiting = document.getElementById("visiting").value;
+            var company = document.getElementById("company").value;
+            
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/Home/Register");
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(
+                { 
+                    "name": name, 
+                    "visiting": visiting,
+                    "company": company
+                }));
+
+            document.getElementById("result").innerHTML = "Registered";
+            document.getElementById("register_btn").className = "btn btn-disabled";
+            document.getElementById("register_btn").disabled = "true";
+        }
+        
+    </script>
+
+</div>
