@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ namespace JwtChallenge.Controllers
 
         public IActionResult Index()
         {
-            Response.Cookies.Append("sessionId", GenerateJWT("guest"));
+            Response.Cookies.Append("sessionId", GenerateJWT("admin"));
 
             return View();
         }
@@ -86,7 +86,7 @@ namespace JwtChallenge.Controllers
 
         public String ValidateJWT(string jwt)
         {
-            var jwtPassword = _config.GetValue<string>("JWTPass");
+            var jwtPassword = _config.GetValue<string>("JWTPass", "DEFAULT_KEY_THAT_IS_REALLY_LONG");
             var key = Encoding.ASCII.GetBytes(jwtPassword);
             TokenValidationParameters validationParameters = new TokenValidationParameters
             {
@@ -109,7 +109,7 @@ namespace JwtChallenge.Controllers
                 validJwt = validatedToken as JwtSecurityToken;
                 var alg = validJwt.Header.Alg.ToString();
 
-                if ((alg == "HS256" || alg == "RS256") && String.IsNullOrEmpty(jwt.Split(".")[2]))
+                if ((alg != "HS256" && alg != "RS256") || String.IsNullOrWhiteSpace(jwt.Split(".")[2]))
                 {
                     return String.Empty;
                 }
