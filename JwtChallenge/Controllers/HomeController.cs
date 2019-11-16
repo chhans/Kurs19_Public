@@ -110,7 +110,7 @@ namespace JwtChallenge.Controllers
                 validJwt = validatedToken as JwtSecurityToken;
                 var alg = validJwt.Header.Alg.ToString();
 
-                if (alg == "HS256" || alg == "RS256")
+                if (alg != "HS256" && alg != "RS256")
                 {
                     return string.Empty;
                 }
