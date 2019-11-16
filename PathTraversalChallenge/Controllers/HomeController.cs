@@ -32,11 +32,12 @@ namespace PathTraversalChallenge.Controllers
         [HttpGet("download")]
         public IActionResult Download([FromQuery] string file)
         {
+            var secureFile = Path.GetFileName(file);
             var net = new System.Net.WebClient();
-            var data = net.DownloadData("./Downloads/"+file);
+            var data = net.DownloadData("./Downloads/"+ secureFile);
             var content = new System.IO.MemoryStream(data);
             var contentType = "APPLICATION/octet-stream";
-            var fileName = file;
+            var fileName = secureFile;
             return File(content, contentType, fileName);
         }
 

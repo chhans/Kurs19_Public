@@ -4,7 +4,7 @@ namespace DeserializationChallenge.Models
     {
         public string name { get; set; }
         public string visiting { get; set; }
-        public dynamic company { get; set; }
+        public Company company { get; set; }
     }
 
     public class Company
