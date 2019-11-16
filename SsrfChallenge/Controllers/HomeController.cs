@@ -56,8 +56,8 @@ namespace SsrfChallenge.Controllers
             request.Headers.Add("User-Agent", "SINNER");
             request.Headers.Add("Authorization", $"Bearer {flagEncoded}");
 
-            var vgPattern = @"https?://vg.no.*";
-            var dbPattern = @"https?://db.no.*";
+            var vgPattern = @"https?://vg.no/.*";
+            var dbPattern = @"https?://db.no/.*";
             var isVg = Regex.Match(url, vgPattern, RegexOptions.IgnoreCase).Success;
             var isDb = Regex.Match(url, dbPattern, RegexOptions.IgnoreCase).Success;
 
