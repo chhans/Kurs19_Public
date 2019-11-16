@@ -93,8 +93,9 @@ namespace JwtChallenge.Controllers
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateAudience = false,
-                RequireSignedTokens = false,
-                ValidateIssuer = false
+                RequireSignedTokens = true,
+                ValidIssuer = "https://sso.binsec.cloud",
+                ValidateIssuer = true
             };
             
             var validator = new JwtSecurityTokenHandler();
@@ -109,9 +110,14 @@ namespace JwtChallenge.Controllers
                 validJwt = validatedToken as JwtSecurityToken;
                 var alg = validJwt.Header.Alg.ToString();
 
-                if ((alg == "HS256" || alg == "RS256") && String.IsNullOrEmpty(jwt.Split(".")[2]))
+                if (alg == "HS256" || alg == "RS256")
                 {
-                    return String.Empty;
+                    return string.Empty;
+                }
+
+                if (string.IsNullOrEmpty(jwt.Split(".")[2]))
+                {
+                    return string.Empty;
                 }
 
                 return principal.Claims.First().Value;
