@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -98,7 +98,7 @@ namespace JwtChallenge.Controllers
             };
             
             var validator = new JwtSecurityTokenHandler();
-            
+                
             if (validator.CanReadToken(jwt))
             {
                 ClaimsPrincipal principal;
@@ -109,10 +109,11 @@ namespace JwtChallenge.Controllers
                 validJwt = validatedToken as JwtSecurityToken;
                 var alg = validJwt.Header.Alg.ToString();
 
-                if ((alg == "HS256" || alg == "RS256") && String.IsNullOrEmpty(jwt.Split(".")[2]))
-                {
+                if (alg != "HS256" & alg != "RS256")
+                    return string.Empty;
+
+                if (String.IsNullOrEmpty(jwt.Split(".")[2]))
                     return String.Empty;
-                }
 
                 return principal.Claims.First().Value;
             }
