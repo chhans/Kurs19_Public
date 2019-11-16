@@ -27,7 +27,7 @@ namespace JwtChallenge.Controllers
 
         public IActionResult Index()
         {
-            Response.Cookies.Append("sessionId", GenerateJWT("admin"));
+            Response.Cookies.Append("sessionId", GenerateJWT("guest"));
 
             return View();
         }
