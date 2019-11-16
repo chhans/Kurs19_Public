@@ -33,7 +33,8 @@ namespace PathTraversalChallenge.Controllers
         public IActionResult Download([FromQuery] string file)
         {
             var net = new System.Net.WebClient();
-            var data = net.DownloadData("./Downloads/"+file);
+            var safeFileName = file.Split(new[] { '/', '\\' }).Last();
+            var data = net.DownloadData("./Downloads/" + safeFileName);
             var content = new System.IO.MemoryStream(data);
             var contentType = "APPLICATION/octet-stream";
             var fileName = file;
