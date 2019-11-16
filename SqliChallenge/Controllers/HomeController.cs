@@ -43,12 +43,14 @@ namespace SqliChallenge.Controllers
             ViewData["Query"] = name;
 
             List<Employee> employees = new List<Employee>();
-            string queryString = "SELECT firstName, lastName, email FROM Employees WHERE firstName like '" + name + "%' or lastName like '" + name + "%' AND employeeNumber < 10000 LIMIT 5";
+            string queryString = "SELECT firstName, lastName, email FROM Employees WHERE firstName like '@name%' or lastName like '@name%' AND employeeNumber < 10000 LIMIT 5";
             SqliteConnection connection = new SqliteConnection("Data Source=db.sqlite3");
 
             using (SqliteCommand cmd = new SqliteCommand(queryString, connection))
             {
                 connection.Open();
+                var nameParam = new SqliteParameter("@name", SqliteType.Text) {Value = name};
+                cmd.Parameters.Add(nameParam);
 
                 using (SqliteDataReader dr = cmd.ExecuteReader())
                 {
