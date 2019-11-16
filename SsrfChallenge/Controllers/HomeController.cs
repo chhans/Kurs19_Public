@@ -54,7 +54,18 @@ namespace SsrfChallenge.Controllers
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "text/html");
             request.Headers.Add("User-Agent", "SINNER");
-            request.Headers.Add("Authorization", $"Bearer {flagEncoded}"); 
+            request.Headers.Add("Authorization", $"Bearer {flagEncoded}");
+
+            var vgPattern = @"https?://vg.no.*";
+            var dbPattern = @"https?://db.no.*";
+            var isVg = Regex.Match(url, vgPattern, RegexOptions.IgnoreCase).Success;
+            var isDb = Regex.Match(url, dbPattern, RegexOptions.IgnoreCase).Success;
+
+            if (!isDb && !isVg)
+            {
+                ViewData["Error"] = "The URL isn't a known news site.";
+                return View();
+            }
 
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
@@ -65,24 +76,10 @@ namespace SsrfChallenge.Controllers
                 HtmlDocument pageDocument = new HtmlDocument();
                 pageDocument.Load(responseStream); 
 
-                var vgPattern = @"https?://vg.no.*";
-                var dbPattern = @"https?://db.no.*";
-
                 HtmlNodeCollection headers = null;
 
-                // If VG.no
-                if (Regex.Match(url, vgPattern, RegexOptions.IgnoreCase).Success) {
-                    headers = pageDocument.DocumentNode.SelectNodes("//h3[@itemprop='headline']");
-                } 
-                // If db.no
-                else if (Regex.Match(url, dbPattern, RegexOptions.IgnoreCase).Success){
-                    headers = pageDocument.DocumentNode.SelectNodes("//h1[@class='headline']");
-                }
-                // Else grab all headers
-                else {
-                    headers = pageDocument.DocumentNode.SelectNodes("//h1");
+                headers = pageDocument.DocumentNode.SelectNodes(isVg ? "//h3[@itemprop='headline']" : "//h1[@class='headline']");
 
-                }
                 return View(headers);
 
             } else {
